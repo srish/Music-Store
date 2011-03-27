@@ -1,0 +1,68 @@
+<?php
+class LoanType extends Zend_Db_Table
+{
+    protected $_name = 'loanType';
+    protected $_primary = 'typeId';
+	protected $db;
+	
+	public function __construct()
+	{
+		$this->db = Zend_Registry::get('db');
+	} 
+	
+	public function fetchId($input = array())
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT typeId FROM loanType WHERE type = ? AND typeScheme = ? AND amountFrom = ? AND amountTo = ? AND tenure = ?';
+		$result = $this->db->fetchOne($sql,array($input['type'],$input['typeScheme'],$input['amountFrom'],$input['amountTo'],$input['tenure']));
+		
+		return $result;
+	}
+	
+	public function insert_row($input = array())
+	{
+		$flag = $this->fetchId($input);
+		if($flag)
+		{}
+		else
+		{
+			$this->db->insert('loanType',$input);
+		}
+	}
+	public function fetch_fullrow($typeid)
+	{
+		//echo '323';
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT * FROM loanType WHERE typeId = ?';
+		$row = $this->db->fetchRow($sql,array($typeid));
+		//echo '577';
+		return $row;
+	}
+	
+	public function fetchAll_type()
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT type FROM loanType';
+		$result = $this->db->fetchCol($sql,array());
+		
+		return $result;
+	}
+	
+	public function fetch_row($typeid)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT * FROM loanType WHERE typeId = ?';
+		$row = $this->db->fetchRow($sql,array($typeid));
+		//echo '577';
+		return $row;
+	}
+	public function fetchId_addloan($input = array())
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT typeId FROM loanType WHERE type = ? AND typeScheme = ? AND tenure = ? AND amountFrom <= ? AND amountTo >= ?';
+		$result = $this->db->fetchOne($sql,array($input['type'],$input['typeScheme'],$input['tenure'],$input['loanAmount'],$input['loanAmount']));
+		
+		return $result;
+	}
+}
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title><?php echo $this->escape($this->title); ?></title>
+    <link rel="stylesheet" type="text/css" media="screen"
+         href="<?php echo $this->baseUrl();?>/css/site.css" />
+<link rel="stylesheet" type="text/css" media="screen"
+         href="<?php echo $this->baseUrl();?>/css/ui.datepicker.css" />
+
+</head>
+<body>
+
+<?php 
+echo $this->jQuery();?>
+<table width="100%" cellpadding="1" cellspacing="0">
+<tr >
+<td colspan="2"><?php include("/var/www/albumzend/application/views/scripts/index/header.phtml") ?></td></tr>
+
+<tr >
+
+
+<tr >
+<td align="left" valign="top" width="15%" class="leftside"><?php include("/var/www/albumzend/application/views/scripts/index/leftmenu.phtml") ?></td>
+<td align="left" valign="top"> <div style="min-height:520px;"> <?php echo $this->layout()->content; ?></div></td>
+</tr>
+<tr>
+<td colspan="2"><?php include("/var/www/albumzend/application/views/scripts/index/footer.phtml") ?></td>
+</tr>
+</table>
+</body>
+</html>
+

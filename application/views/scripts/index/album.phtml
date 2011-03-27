@@ -1,0 +1,19 @@
+<center><h1><?php echo $this->escape($this->title); ?></h1></center>
+<table align = "center" cellspacing = "0" cellpadding = "1" border = "0" width="45%" style="font-size:14px;border:1px solid #ccc;padding:30px;background-color:#efefef;">
+<tr>
+  <td align="left" valign="top">
+     <table>
+       <tr><td align="right">Album id :</td><td><?php echo $this->album['1'];?> </td> </tr>
+       <tr><td align="right">Name :</td><td><?php echo $this->album['2'];?> </td> </tr>
+       <tr><td align="right">Type :</td><td><?php echo $this->album['3'];?> </td> </tr>
+       <tr><td align="right">Gender :</td><td><?php echo $this->album['4'];?> </td> </tr>
+       <tr><td align="right">Instrument :</td><td><?php echo $this->album['5'];?> </td> </tr>
+       <tr><td align="right">Year :</td><td><?php echo $this->album['6'];?> </td> </tr>
+     </table>
+  </td>
+<td align="right" valign="top"><?php if($this->album['7']){ ?> <img src="<?php echo $this->baseUrl(); ?>/upload/<?php echo $this->album['7']?>" width="120" style="border-width: 3px;
+border-color: #008000;
+border-style: dotted;" > <?php } ?></td>
+</tr>
+</table>
+

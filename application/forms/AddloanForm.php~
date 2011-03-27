@@ -1,0 +1,156 @@
+<?php 
+class AddloanForm extends Zend_Dojo_Form
+{
+	
+    public function init()
+    {
+        // Dojo-enable the form:
+        Zend_Dojo::enableForm($this);
+    }
+    
+    
+    public function __construct($options = null)
+    {
+    	
+    	parent::__construct($options);
+    	$id = new Zend_Form_Element_Hidden('id');
+    	
+        $this->setName('addloan');
+        
+        /*$loanid = new Zend_Form_Element_Text('loanid');
+        $loanid->setLabel('Loan Id')
+      
+        ->setRequired(true)
+        ->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Digits'),
+        array('NotEmpty')
+        )
+        );
+      
+        
+        $loantype = new Zend_Form_Element_Select('loantype');
+        $loantype->setLabel('Loan Type')
+        ->setRequired(true);
+        $loantype->addMultiOption('','Select...');
+        $loantype->addMultiOption('housingloan','Housing Loan');
+        $loantype->addMultiOption('carloan','Car Loan');
+        $loantype->addMultiOption('personalloan','Personal Loan');
+        
+        $loanscheme = new Zend_Form_Element_Select('loanscheme');
+        $loanscheme->setLabel('Loan Scheme')
+        ->setRequired(true);
+        $loanscheme->addMultiOption('','Select...');
+        $loanscheme->addMultiOption('scheme1','Scheme 1');
+        $loanscheme->addMultiOption('scheme2','Scheme 2');
+        $loanscheme->addMultiOption('scheme3','Scheme 3');
+        
+        $tenure = new Zend_Form_Element_Select('tenure');
+        $tenure->setLabel('Tenure')
+        ->setRequired(true);
+        $tenure->addMultiOption('','Select...');
+        $tenure->addMultiOption('1',' 3months');
+        $tenure->addMultiOption('2',' 6months');
+        $tenure->addMultiOption('3',' 1 year');
+        $tenure->addMultiOption('4',' 2 year');*/
+        $loantype = new Zend_Form_Element_Text('loantype');
+        $loantype->setLabel('Loan Type : ')
+        ->setRequired(true)
+		->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('NotEmpty')
+        )
+        );
+		
+		$loanscheme = new Zend_Form_Element_Text('loanscheme');
+        $loanscheme->setLabel('Loan Scheme : ')
+        ->setRequired(true)
+		->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('NotEmpty')
+        )
+        );
+		
+		$tenure = new Zend_Form_Element_Text('tenure');
+        $tenure->setLabel('Tenure(in months) : ')
+        ->setRequired(true)
+		->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Digits'),
+        array('NotEmpty')
+        )
+        );
+        
+        $loanamount = new Zend_Form_Element_Text('loanamount');
+        $loanamount->setLabel('Loan Amount')
+        ->setRequired(true)
+        ->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Digits'),
+        array('NotEmpty')
+        )
+        );
+        
+        $rate = new Zend_Form_Element_Select('rate');
+        $rate->setLabel('Rate Type')
+        ->setRequired(true);
+        $rate->addMultiOption('','Select...');
+        $rate->addMultiOption('fixed','Fixed');
+        $rate->addMultiOption('floating','Floating');
+        
+        $periodofpay = new Zend_Form_Element_Select('periodofpay');
+        $periodofpay->setLabel('Period of Pay')
+        ->setRequired(true);
+        $periodofpay->addMultiOption('','Select...');
+        $periodofpay->addMultiOption('monthly','Monthly');
+        $periodofpay->addMultiOption('quarterly','Quarterly');
+        $periodofpay->addMultiOption('halfyearly','Halfyearly');
+        $periodofpay->addMultiOption('yearly','Yearly');
+        
+        $amountgiven = new Zend_Form_Element_Text('amountgiven');
+        $amountgiven->setLabel('Amount Given')
+        ->setRequired(true)
+        ->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Digits'),
+        array('NotEmpty')
+        )
+        );
+        
+        //Zend_Dojo::enableForm($this);
+        $date = new Zend_Dojo_Form_Element_DateTextBox('date');
+        $date->setLabel('Date(yyyy-mm-dd)')
+        ->setRequired(true);
+        $date->setSelector('date');
+        //$date->setValue('2009-07-13');
+        $date->setFormatLength('long');
+        $date->setStrict('true');
+        $date->setDatePattern('yyyy.mm.dd');
+        
+        
+        $submit = new Zend_Form_Element_Submit('Save');
+        $submit->setAttrib('id', 'save');
+        
+        $this->addElements(array($id,$loantype,$loanscheme,$tenure,$loanamount,$rate,$periodofpay,$amountgiven,$date));
+        
+        /*$this->addElement(
+    	'DateTextBox',
+    	'date',
+    	array(
+     	'label'          => 'Date ',
+       	'required'       => true,
+       	'invalidMessage' => 'Invalid date specified.',
+        'formatLength'   => 'long',
+        )
+	);*/
+	//$date->setSelector('date');
+        
+	$this->addElement($submit);
+    }
+}

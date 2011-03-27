@@ -1,0 +1,14 @@
+<?php if ($this->album) :?>
+<form action="<?php echo $this->baseUrl ?>/index/deletealbum/?id=<?php echo $this->album->album_id;?>" method="post">
+<p>Are you sure that you want to delete
+  "<?php echo $this->escape($this->album->name); ?>" ?
+</p>
+<div>
+
+  <input type="submit" name="del" value="Yes" />
+  <input type="submit" name="del" value="No" />
+</div>
+</form>
+<?php else: ?>
+header("Location:/index/viewalbum");
+<?php endif;?>

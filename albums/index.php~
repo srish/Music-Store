@@ -1,0 +1,44 @@
+<?php
+error_reporting(E_ALL|E_STRICT);
+ini_set('display_errors', 1);
+date_default_timezone_set('Asia/Kolkata');
+
+// directory setup and class loading
+
+set_include_path('.' . PATH_SEPARATOR . '/var/www/html/albumzend/library/'
+     . PATH_SEPARATOR . '/var/www/html/albumzend/application/models/albums'
+     . PATH_SEPARATOR . '/var/www/html/albumzend/application/forms/albums'
+     . PATH_SEPARATOR . get_include_path());
+
+include "Zend/Loader/Autoloader.php";
+$loader = Zend_Loader_Autoloader::getInstance();
+$loader->registerNamespace('Models');
+$loader->setFallbackAutoloader(true);
+$loader->suppressNotFoundWarnings(false);
+
+$view = new Zend_View();
+$view->addHelperPath("ZendX/JQuery/View/Helper", "ZendX_JQuery_View_Helper");
+$viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
+$viewRenderer->setView($view);
+Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
+
+// load configuration
+$config = new Zend_Config_Ini('/var/www/html/albumzend/application/config.ini', 'general');
+$registry = Zend_Registry::getInstance();
+$registry->set('config', $config);
+
+// setup database
+$db = Zend_Db::factory($config->db);
+Zend_Db_Table::setDefaultAdapter($db);
+$registry->set('db', $db);
+
+// setup controller
+$frontController = Zend_Controller_Front::getInstance();
+$frontController->throwExceptions(true);
+$frontController->setControllerDirectory('/var/www/html/albumzend/application/controllers');
+
+Zend_Layout::startMvc(array('layoutPath'=>'/var/www/html/albumzend/application/layouts'));
+
+// run!
+$frontController->dispatch();
+?>

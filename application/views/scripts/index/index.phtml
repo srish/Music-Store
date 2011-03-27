@@ -1,0 +1,20 @@
+<h1 align = "center">Welcome to Music albums</h1>
+<div align="center">
+<img src="<?php echo $this->baseUrl();?>/images/pic1.jpg"  vspace="5" hspace="5"/></div>
+<?php if($this->latest){ ?>
+<table width="100%" cellpadding="0" cellspacing="6">
+<tr><td colspan="3" style="background-color:#e9e9e9;font-size:20px;font-weight:bold;color:#008000;padding:5px;"> Latest Albums<td></tr>
+
+<tr style="font-size:15px;background-color:#e9e9e9;color:#008000;">
+     <?php for($i=0;$i< count($this->latest);$i++){ ?>
+     <td align="center">
+          <table>
+             <tr><td align="center"><a href="<?php echo $this->baseUrl; ?>/index/album/id/<?php
+          echo$this->latest[$i]['1'];?>"><?php if($this->latest[$i]['2'])echo $this->latest[$i]['2'];?></a></td></tr>
+             <tr><td align="center"><?php if($this->latest[$i]['7']){ ?> <img src="<?php echo $this->baseUrl(); ?>/upload/<?php echo $this->latest[$i]['7'];?>" width="80" > <?php } ?></td></tr>
+          </table>
+ </td>
+     <?php } ?>
+ </tr>
+</table>
+<?php } ?>

@@ -1,0 +1,106 @@
+<?php
+class LoanRate extends Zend_Db_Table
+{
+    protected $_name = 'loanRate';
+	protected $db;
+	
+	public function __construct()
+	{
+		$this->db = Zend_Registry::get('db');
+	} 
+	
+	public function fetch_Rate_Prevailing($input)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT  ratePrevailing FROM loanRate WHERE loanDescId = ?';
+		$result = $this->db->fetchOne($sql,array($input));
+		
+		return $result;
+	}
+	
+	public function insert_row($input = array())
+	{
+		
+		$flag = $this->fetch_Rate_Prevailing($input['loanDescId']);
+		if($flag)
+		{
+			echo '<br>Rate already exists for this term description';
+		}
+		else
+		{
+			$p = new LoanPLR();
+			$condition = $input['rateParam'];
+			$plr = $p->fetch_PLR('2009-07-12');
+			
+			$ratePrevailing = (float)((float)$condition + (float)$plr);
+		
+			if( ($ratePrevailing > $input['rateMax']) && ($input['rateMax'] != 0))
+			{
+				$ratePrevailing = $input['rateMax'];
+			}
+			
+			if($ratePrevailing < $input['rateMin'])
+			{
+				$ratePrevailing = $loandescrow[0][4];
+			}
+			
+			$data = array(
+			'loanDescId' => $input['loanDescId'],
+			'ratePrevailing' => $ratePrevailing,
+			'rateParam' => $input['rateParam'],
+			'rateMin' => $input['rateMin'],
+			'rateMax' => $input['rateMax']
+			);
+	
+			$this->db->insert('loanRate',$data);
+		}
+	}
+	
+	public function fetch_fullrow($loandescid)
+	{
+		//echo '323';
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT * FROM loanRate WHERE loanDescId = ?';
+		$row = $this->db->fetchRow($sql,array($loandescid));
+		//echo '577';
+		return $row;
+	}
+	public function update_row($input = array(),$loandescid)
+	{
+		$this->db->update('loanRate',$input,'loanDescId = '.$loandescid);
+	}
+	
+	public function update_rate($input = array())
+	{
+		
+			$p = new LoanPLR();
+			
+			$condition = $input['rateParam'];
+			$plr = $p->fetch_PLR('2009-07-12');
+			
+			$ratePrevailing = (float)((float)$condition + (float)$plr);
+		
+			if( ($ratePrevailing > $input['rateMax']) && ($input['rateMax'] != 0))
+			{
+				$ratePrevailing = $input['rateMax'];
+			}
+			
+			if($ratePrevailing < $input['rateMin'])
+			{
+				$ratePrevailing = $loandescrow[0][4];
+			}
+			
+			$data = array(
+			'loanDescId' => $input['loanDescId'],
+			'ratePrevailing' => $ratePrevailing,
+			'rateParam' => $input['rateParam'],
+			'rateMin' => $input['rateMin'],
+			'rateMax' => $input['rateMax']
+			);
+			
+			$where[] = "loanDescId = '".$input['loanDescId']."'";
+			$n = $this->db->update('loanRate',$data,$where);
+		
+	}
+	
+}

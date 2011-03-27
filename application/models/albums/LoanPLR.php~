@@ -1,0 +1,57 @@
+<?php
+class LoanPLR extends Zend_Db_Table
+{
+    protected $_name = 'loanPLR';
+	protected $_primary_key = 'plrId';
+	protected $db;
+	
+	public function __construct()
+	{
+		$this->db = Zend_Registry::get('db');
+	} 
+	
+	public function fetch_PLR($input)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT plrRate FROM loanPLR WHERE fromDate <= ? ORDER BY fromDate DESC';
+		$result = $this->db->fetchAll($sql,array($input));
+		
+		return $result[0][0];
+	}
+	
+	public function fetch_lastId($input)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT plrId,fromDate,toDate FROM loanPLR WHERE fromDate <= ? ORDER BY fromDate DESC';
+		$result = $this->db->fetchAll($sql,array($input));
+		
+		return $result[0];
+	}
+	
+	public function insert_row($input = array())
+	{
+		$flag = array();
+		$falg = fetch_lastId($input['fromDate']);
+		if($flag[2])
+		{
+			if(($flag[2] + 1) == $input['date'])
+			{
+				$this->db->insert('loanPLR',$input);
+			}
+			else if($flag[1] == $input['fromDate'])
+			{
+				echo 'PLR already defined for '.$input['fromDate'];
+			}
+			else 
+			{
+				echo 'NO PLR defined from '.($flag[2] + 1).' to '.($input['fromDate'] - 1).'. Please define first.'; 
+			}
+		}
+		else
+		{
+			$this->db->update('loanPLR',array('toDate' =>($input['fromDate']-1)),'plrId = '.$flag[0]);
+			$this->db->insert('loanPLR',$input);
+		}
+	}
+	
+}

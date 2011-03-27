@@ -1,0 +1,36 @@
+<center><h1><?php echo $this->escape($this->title); ?></h1></center>
+<table align = "center" cellspacing = "0" cellpadding = "1" border = "0" width="45%" style="font-size:14px;border:1px solid #ccc;padding:30px;background-color:#efefef;">
+<tr>
+  <td align="left" valign="top">
+    <?php echo $this->jquery?>
+
+  </td>
+
+</tr>
+</table>
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-helper-hidden-accessible">
+   <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
+      <a class="ui-datepicker-prev ui-corner-all">title="Prev"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a>
+      <a class="ui-datepicker-next ui-corner-all" title="Next"><span class="ui-icon ui-icon-circle-triangle-e">Next</span></a>
+      <div class="ui-datepicker-title">
+         <span class="ui-datepicker-month">January</span><span class="ui-datepicker-year">2009</span>
+      </div>
+   </div>
+   <table class="ui-datepicker-calendar">
+      <thead>
+      <tr>
+         <th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th>
+         ...
+      </tr>
+      </thead>
+      <tbody><tr>
+         <td class="ui-datepicker-week-end ui-datepicker-other-month "> 1 </td>
+         ...
+      </tr>
+      </tbody>
+   </table>
+   <div class="ui-datepicker-buttonpane ui-widget-content">
+      <button type="button" class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all">Today</button>
+      <button type="button" class="ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all">Done</button>
+   </div>
+</div>

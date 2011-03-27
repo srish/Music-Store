@@ -1,0 +1,29 @@
+<?php
+class LoanDetails extends Zend_Db_Table
+{
+    protected $_name = 'loanDetails';
+	protected $_primary_key = 'serialNo';
+	protected $db;
+	
+	public function __construct()
+	{
+		$this->db = Zend_Registry::get('db');
+	}
+	
+	public function insert_row($input = array())
+	{
+		
+		$this->db->insert('loanDetails',$input);
+		return '1';
+	} 
+	
+	public function getLoandescids($loanid)
+	{
+ echo "wret".$loanid;
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT loanDescId FROM loanDetails WHERE loanId = ?';
+		$result = $this->db->fetchCol($sql,array($loanid));
+		
+		return $result;
+	}
+}

@@ -1,0 +1,12 @@
+function pagerAction()
+{
+    $this->view->setHelperPath(dirname(dirname(dirname(__FILE__))) . '/var/www/albumzend/application/views/helpers', 'Hoge_View_Helper');
+    $this->view->addHelperPath(dirname(dirname(__FILE__)) . '/View/Helper', 'Hoge_View_Helper');
+
+    require_once 'Hoge/Db/Table/Data.php';
+    $data = new Data();
+    $perPage = 20; // Should be defined.
+    $offset = ($this->_getParam('page') > 0) ? $perPage * ($this->_getParam('page') - 1) : 0;
+    $this->view->data  = $data->fetchAll(null, null, $perPage, $offset)->toArray();
+    $this->view->total = $data->numRows();
+}

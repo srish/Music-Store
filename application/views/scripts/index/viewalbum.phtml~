@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title><?php echo $this->escape($this->title); ?></title>
+</head>
+<body>
+    <h1><?php echo $this->escape($this->title); ?></h1>
+    
+    <table align = "left" cellspacing = "0" cellpadding = "5" border = "0" width = "100%" style="border:1px solid #ccc;margin-left:5px;">
+     <tr style="background-color:#686868;color:#fff;font-size:14px;">
+     <th>Album id.</th>
+     <th>Name</th>
+     <th>Type</th>
+     <th>Gender</th>
+     <th>Instrument</th>
+     <th>Year</th>
+     <th>Edit</th>
+     <th>Delete</th>
+</tr>
+<?php 
+$cnt=count($this->album);
+if( $cnt> 0){
+ $i=0; foreach($this->album as $album) : if($i%2 == 0 )$color="#fff";else $color="#efefef"; ?>
+<tr style="font-size:13px;border-bottom:1px solid #ccc;background-color:<?php echo $color ?>">
+     <td><?php echo $this->escape($album->album_id);?></td>
+     <td> <a href="<?php echo $this->baseUrl; ?>/index/album/id/<?php
+          echo $album->album_id;?>"><?php echo $this->escape($album->name);?></a></td>
+     <td><?php echo $this->escape($album->type);?></td>
+    <td><?php echo $this->escape($album->gender);?></td>
+     <td><?php echo $this->escape($album->instr);?></td>  
+      <td><?php echo $this->escape($album->year);?></td>
+   
+<td>
+    <a href="<?php echo $this->baseUrl; ?>/index/editalbum/id/<?php
+          echo $album->album_id;?>">Edit</a>
+</td>
+<td>
+
+ <a href="<?php echo $this->baseUrl; ?>/index/deletealbum/id/<?php
+          echo $album->album_id;?>">Delete</a> 
+    </td>
+</tr>
+
+<?php $i++; endforeach; ?>
+
+<?php }else{ ?>	
+<tr style="font-size:13px;border-bottom:1px solid #ccc;background-color:#efefef;">
+     <td colspan="8" align="center">---- No records ----</td>
+    
+</tr>
+<?php } ?>	
+  </tbody>
+</table>
+
+</body>
+</html>

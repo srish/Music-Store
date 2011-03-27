@@ -1,0 +1,105 @@
+<?php 
+class ViewloanschemeForm extends Zend_Form
+{
+    public function __construct($options = null)
+    {
+    	parent::__construct($options);
+        $this->setName('viewloanscheme');
+    	$id = new Zend_Form_Element_Hidden('id');
+    	
+		/*$loantype = new Zend_Form_Element_Select('loantype');
+        $loantype->setLabel('Loan Type')
+        ->setRequired(true);
+        $loantype->addMultiOption('','Select...');
+        $loantype->addMultiOption('housingloan','Housing Loan');
+        $loantype->addMultiOption('carloan','Car Loan');
+        $loantype->addMultiOption('personalloan','Personal Loan');
+        
+        $loanscheme = new Zend_Form_Element_Select('loanscheme');
+        $loanscheme->setLabel('Loan Scheme')
+        ->setRequired(true);
+        $loanscheme->addMultiOption('','Select...');
+        $loanscheme->addMultiOption('scheme1','Scheme 1');
+        $loanscheme->addMultiOption('scheme2','Scheme 2');
+        $loanscheme->addMultiOption('scheme3','Scheme 3');
+        
+        $tenure = new Zend_Form_Element_Select('tenure');
+        $tenure->setLabel('Tenure')
+        ->setRequired(true);
+        $tenure->addMultiOption('','Select...');
+        $tenure->addMultiOption('1',' 3months');
+        $tenure->addMultiOption('2',' 6months');
+        $tenure->addMultiOption('3',' 1 year');
+        $tenure->addMultiOption('4',' 2 year');
+        
+        $amountrange = new Zend_Form_Element_Select('amountrange');
+        $amountrange->setLabel('Amount Range')
+        ->setRequired(true);
+        $amountrange->addMultiOption('','Select...');
+        $amountrange->addMultiOption('1',' < 1lakh');
+        $amountrange->addMultiOption('2',' 1-2lakhs');
+        $amountrange->addMultiOption('3',' 2-5lakhs');
+        $amountrange->addMultiOption('4',' > 5lakhs');
+        */
+		
+	$amountfrom = new Zend_Form_Element_Text('amountfrom');
+        $amountfrom->setLabel('Amount From : ')
+        ->setRequired(true)
+		->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Float'),
+        array('GreaterThan',false,array('min'=>0)),
+        array('NotEmpty')
+        )
+        );
+		
+		$amountto = new Zend_Form_Element_Text('amountto');
+        $amountto->setLabel('Amount To : ')
+        ->setRequired(true)
+		->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Float'),
+        array('GreaterThan',false,array('min'=>0)),
+        array('NotEmpty')
+        )
+        );
+		
+		$loantype = new Zend_Form_Element_Text('loantype');
+        $loantype->setLabel('Loan Type : ')
+        ->setRequired(true)
+		->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('NotEmpty')
+        )
+        );
+		
+		$loanscheme = new Zend_Form_Element_Text('loanscheme');
+        $loanscheme->setLabel('Loan Scheme : ')
+        ->setRequired(true)
+	->addFilter('StripTags')
+        ->addFilter('StringTrim')        
+        ->addValidators(array(
+        array('NotEmpty')
+        )
+        );
+		
+		$tenure = new Zend_Form_Element_Text('tenure');
+        $tenure->setLabel('Tenure(in months) : ')
+        ->setRequired(true)
+		->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Digits'),
+        array('NotEmpty')
+        )
+        );
+                
+        $submit = new Zend_Form_Element_Submit('Go');
+        $submit->setAttrib('id', 'go');
+        
+        $this->addElements(array($id,$loantype,$loanscheme,$tenure,$amountfrom,$amountto,$submit));
+      }
+ }

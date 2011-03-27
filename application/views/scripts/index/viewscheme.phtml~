@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title><?php echo $this->escape($this->title); ?></title>
+</head>
+<body>
+    <h1><?php echo $this->escape($this->title); ?></h1>
+    
+    <table align = "left" cellspacing = "0" cellpadding = "5" border = "0" width = "100%">
+    <tr>
+    <td>
+    <?php echo $this->form1;?>
+    </td>
+    </tr>
+	<tr>
+	<td>
+    <?php 
+    if(isset($this->form2))
+    {
+		if($this->arrayrequired)
+		{
+			$addtermdescid = '0';
+		
+    echo "Term Details "; ?>
+	</td>
+	</tr>
+	<tr>
+	<td>
+    <table style="text-align: center; width: 100%;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <th>TERM NO.</th>
+      <th>TERM DURATION</th>
+      <th>RATE TYPE</th>
+      <th>MIN. RATE</th>
+      <th>MAX. RATE</th>
+      <th>+/- PLR</th>
+      <th>RATE</th>
+      <th></th>
+    </tr>
+	<?php 
+	
+	foreach ($this->arrayrequired as $termdetails) { ?>
+    <tr>
+	  <?php foreach($termdetails as $termentry) { 	
+	  		if(!($termentry == $termdetails['loandescid'])){ ?>
+      <td><?php echo $termentry; ?></td>
+	  <?php } else {$addtermdescid = $termentry;}
+	  }?>
+
+      <td><a href="<?php echo $this->url(array('controller'=>'index',
+          'action'=>'updatescheme','id' => $termdetails['loandescid'])); ?>">EDIT</a> &nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+    </tr>
+	<?php } ?>
+	
+  </tbody>
+</table>
+</td>
+</tr>
+<br>
+<tr>
+<td>
+<a href="<?php echo $this->url(array('controller'=>'index',
+          'action'=>'addterm','id'=>$addtermdescid)) ?>">Add a term </a>
+         
+    </td>
+    </tr>
+ 
+    </table>
+    <?php  
+    }
+	else {echo "Oooooooops!!!!This given information is not available."; }
+	
+	}
+    ?>
+    
+     <br>  &nbsp; 
+    
+</body>
+</html>

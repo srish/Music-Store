@@ -1,0 +1,93 @@
+<?php
+class LoanTypeSchemes extends Zend_Db_Table
+{
+    protected $_name = 'loanTypeSchemes';
+    protected $_primary = 'typeSerialId';
+	protected $db;
+	
+	public function __construct()
+	{
+		$this->db = Zend_Registry::get('db');
+	} 
+	
+	public function fetchId($input = array())
+	{	
+		
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT typeSerialId FROM loanTypeSchemes WHERE typeId = ? AND payType = ? AND termNo = ? AND termPeriod = ?';
+		$result = $this->db->fetchOne($sql,array($input['typeId'],$input['payType'],$input['termNo'],$input['termPeriod']));
+		
+		return $result;
+		
+	}
+	
+	public function insert_row($input = array())
+	{
+		$flag = $this->fetchId($input);
+		if($flag)
+		{}
+		else
+		{
+			$this->db->insert('loanTypeSchemes',$input);
+		}
+	}
+	
+	public function fetch_row($typeSerialId)
+	{
+		//echo '323';
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT typeId,termNo FROM loanTypeSchemes WHERE typeSerialId = ?';
+		$row = $this->db->fetchAll($sql,array($typeSerialId));
+		//echo '577';
+		return $row;
+	}
+	
+	public function fetch_fullrow($typeserialid)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT * FROM loanTypeSchemes WHERE typeSerialId = ?';
+		$row = $this->db->fetchRow($sql,array($typeserialid));
+		
+		return $row;
+	}
+	
+	public function fetchAll_Id($input)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT typeSerialId FROM loanTypeSchemes WHERE typeId = ? ORDER BY termNo';
+		$result = $this->db->fetchCol($sql,array($input));
+		
+		return $result;
+	}
+	
+	public function update_row($input = array(),$typeserialid)
+	{
+		$where[] = "typeSerialId = '".$typeserialid."'";
+		$n = $this->db->update('loanTypeSchemes',$input,$where);
+	}
+	
+	public function check($input = array())
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT typeSerialId FROM loanTypeSchemes WHERE typeId = ? AND typeSerialId = ? AND payType = ? AND termNo = ?';
+		$row = $this->db->fetchOne($sql,array($input['typeid'],$input['typeserialid'],$input['paytype'],$input['termno']));
+		return $row;
+	}
+	
+	public function fetch_remainingtermduration($input = array())
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT termPeriod FROM loanTypeSchemes WHERE typeId = ? AND typeSerialId = ? AND payType = ? AND termNo < ?';
+		$row = $this->db->fetchCol($sql,array($input['typeId'],$input['typeserialid'],$input['paytype'],$input['termno']));
+		return $row;
+	}
+	
+	public function fetch_termperiod($input = array())
+	{
+		
+		
+		
+		
+	
+	
+}

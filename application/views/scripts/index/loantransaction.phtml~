@@ -1,0 +1,71 @@
+<head><title><?php echo $this->escape($this->title); ?></title></head>
+<body> 
+<h2><?php echo $this->escape($this->title); ?></h2>   
+    <table align = "left" cellspacing = "0" cellpadding = "5" border = "0" width = "100%">
+    <tr>
+    <td>
+    <?php if(!isset($this->abc) && !isset($this->a)) { echo $this->form1;?>
+    </td>
+    </tr>
+    
+    
+    <?php if(isset($this->form2)){ ?>
+
+	 <tr><td>Date Applied &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<?php echo $this->viewarray['dateapplied'];?></td></tr>    
+    <tr><td>Loan Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp; <?php echo $this->viewarray['loantype'];?></td></tr>
+     <tr><td>Loan Scheme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp; <?php echo $this->viewarray['loanscheme'];?></td></tr>
+     <tr><td>Loan Amount  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;<?php echo $this->viewarray['amountapplied'];?></td></tr>    
+     <tr><td>loan Tenure  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;<?php echo $this->viewarray['tenure'];?></td></tr> 
+
+	 <tr>
+	 <td>
+    <?php echo $this->form2; ?>
+    </td>
+    </tr>
+    </table>
+    <br>
+    
+	<h3 align = "center">Payment Log</h3>
+	<table align = "left" cellspacing = "0" cellpadding = "5" border = "1" width = "100%">
+    <tr>
+    <th>Sl.No.</th>
+    <th>Amt. to be paid</th>
+    <th>Fine</th>
+    <th>Total Amt. Payable</th>
+    <th>Last Date</th>
+    <th>Amt. Paid</th>
+    <th>Date Paid</th>
+    </tr>
+	<?php if(isset($this->arraysent[0][0])) {
+	
+	$i = '1';
+	foreach($this->arraysent as $eacharraysent)
+	{ ?>
+    <tr>
+    <td><?php echo $i ;?></td>
+    <td><?php echo $eacharraysent[2] ;?></td>
+    <td><?php echo $eacharraysent[3] ;?></td>
+    <td><?php echo $eacharraysent[2]+$eacharraysent[3] ;?></td>
+    <td><?php echo $eacharraysent[4] ;?></td>
+    <td><?php echo $eacharraysent[5] ;?></td>
+    <td><?php echo $eacharraysent[6] ;?></td>
+    </tr>
+	<?php $i++;
+	}
+	}?>
+    </table>
+	<br><br><br>
+	
+	<table align = "center" cellspacing = "0" cellpadding = "5" border = "0" width = "100%">
+	<tr><td>
+    <?php echo $this->form3;?>
+     </tr></td>
+	 </table>
+	    
+    <?php }
+	else echo "</table>"; 
+ 		}?>
+</body>
+    
+    
+    

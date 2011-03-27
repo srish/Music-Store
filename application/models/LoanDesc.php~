@@ -1,0 +1,134 @@
+<?php
+class LoanDesc extends Zend_Db_Table
+{
+    protected $_name = 'loanDesc';
+	protected $_primary_key = 'loanDescId';
+	protected $db;
+	
+	public function __construct()
+	{
+		$this->db = Zend_Registry::get('db');
+	} 
+	
+	public function fetchId($input = array())
+	{	
+		
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT loanDescId FROM loanDesc WHERE amountFrom = ? AND amountTo = ? AND tenure = ? AND rateMax = ? AND rateMin = ? AND typeSerialId = ?';
+		$result = $this->db->fetchOne($sql,array($input['amountFrom'],$input['amountTo'],$input['tenure'],$input['rateMax'],$input['rateMin'],$input['typeSerialId']));
+		
+		return $result;
+	}
+	
+	public function checkIsExist($input = array())
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		
+		$loantypeschemes = new LoanTypeSchemes();
+		$row = $loantypeschemes->fetch_row($input['typeSerialId']);
+		$typeId = $row[0][0];
+		$termNo = $row[0][1];
+		
+		
+		$sql = 'SELECT loanDescId FROM loanDesc WHERE amountFrom = ? AND amountTo = ? AND tenure = ? AND typeSerialId = ?';
+		$result = $this->db->fetchAll($sql,array($input['amountFrom'],$input['amountTo'],$input['tenure'],$input['typeSerialId']));
+		
+		//echo $result[0];
+		return $result;
+		
+	}
+	
+	public function check_term($input = array(),$paytype,$termno)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		echo "asd";
+		echo $input['amountfrom'];
+		$sql = 'SELECT loanDesc.loanDescId FROM loanDesc,loanTypeSchemes WHERE loanDesc.typeSerialId = loanTypeSchemes.typeSeria		lId AND loanDesc.amountFrom = ? AND loanDesc.amountTo = ? AND loanDesc.tenure = ? AND loanTypeSchemes.payType = ? AND lo		anTypeSchemes.termNo = ?';
+		$result = $this->db->fetchAll($sql,array($input['amountfrom'],$input['amountto'],$input['tenure'],$paytype,$termno));
+		return $result;
+	}
+	
+	public function insert_row($input = array())
+	{
+		$flag = $this->checkIsExist($input);
+		if($flag)
+		{
+			echo '<br>This term already exists in this loan scheme for this amount range for this particular tenure.';
+		}
+		else
+		{
+			$this->db->insert('loanDesc',$input);
+			return '1';
+		}
+	}
+	
+	public function fetch_row($loandescid)
+	{
+		//echo '323';
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT * FROM loanDesc WHERE loanDescId = ?';
+		$row = $this->db->fetchAll($sql,array($loandescid));
+		//echo '577';
+		return $row;
+	}
+	
+	public function fetch_loandescid($data = array(),$typeserialid)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT loanDescId FROM loanDesc WHERE typeSerialId = ? AND tenure = ? AND amountFrom = ? AND amountTo = ?';
+		$result = $this->db->fetchOne($sql,array($typeserialid,$data['tenure'],$data['amountFrom'],$data['amountTo']));
+		
+		return $result;
+	}
+	
+	public function fetch_fullrow($loandescid)
+	{
+		//echo '323';
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT * FROM loanDesc WHERE loanDescId = ?';
+		$row = $this->db->fetchRow($sql,array($loandescid));
+		//echo '577';
+
+		return $row;
+	}
+	public function fetch_typeserialid($loandescid)
+	{
+		//echo '323';
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT typeSerialId FROM loanDesc WHERE loanDescId = ?';
+		$row = $this->db->fetchRow($sql,array($loandescid));
+		//echo '577';
+
+		return $row;
+	}
+	
+	public function update_row($input = array(),$loandescid)
+	{
+		//$where = $this->getAdapter()->quoteInto('loanDescId = ?',$loandescid);
+		$where[] = "loanDescId = '".$loandescid."'";
+		$n = $this->db->update('loanDesc',$input,$where);
+	}
+	
+	public function fetchnow_id($input = array())
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT loanDescId FROM loanDesc WHERE tenure = ? AND amountFrom = ? AND amountTo = ? AND typeSerialId = ?';
+		$result = $this->db->fetchOne($sql,array($input['tenure'],$input['amountFrom'],$input['amountTo'],$input['typeSerialId']));
+		
+		return $result;
+	}
+	
+	public function insert_row_newterm($input = array())
+	{
+		$this->db->insert('loanDesc',$input);
+	}
+	
+	public function fetch_typeserialidarray($data = array())
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT DISTINCT typeSerialId FROM loanDesc WHERE  tenure = ? AND amountFrom = ? AND amountTo = ?';
+		$result = $this->db->fetchCol($sql,array($data['tenure'],$data['amountFrom'],$data['amountTo']));
+		
+		return $result;
+	}
+}

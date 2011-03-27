@@ -1,0 +1,16 @@
+<body>
+<table align = "left" cellspacing = "0" cellpadding = "5" border = "0" width = "100%">
+    <tr>
+    <td>
+    <?php
+    if(isset($this->form2))
+    {}
+    else
+    {
+    echo $this->form1;
+    }
+    ?>
+    </td>
+    </tr>
+    </table>
+</body>

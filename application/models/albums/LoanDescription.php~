@@ -1,0 +1,160 @@
+<?php
+class LoanDescription extends Zend_Db_Table
+{
+    protected $_name = 'loanDescription';
+	protected $_primary_key = 'loanDescId';
+	protected $db;
+	
+	public function __construct()
+	{
+		$this->db = Zend_Registry::get('db');
+	} 
+	
+	public function fetchlastid($input = array())
+	{
+		$result = $this->db->lastInsertId('loanDescription');
+		return $result;
+	}
+	
+	public function fetchId($input = array())
+	{	
+	
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		/*$sql = 'SELECT loanDescId FROM loanDescription WHERE typeId = ? AND payType = ? AND termNo = ? AND termPeriod = ?';
+		$result = $this->db->fetchOne($sql,array($input['typeId'],$input['payType'],$input['termNo'],$input['termPeriod']));
+		*/
+		$result = $this->db->lastInsertId('loanDescription');
+		return $result;
+	}
+	
+	
+	
+	
+	
+	public function insert_row($input = array())
+	{
+		
+			$this->db->insert('loanDescription',$input);
+			return '1';
+	}
+	
+	
+	
+	
+	
+	public function fetch_fullrow($loandescid)
+	{
+		//echo '323';
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT * FROM loanDescription WHERE loanDescId = ?';
+		$row = $this->db->fetchRow($sql,array($loandescid));
+		//echo '577';
+
+		return $row;
+	}
+	
+	
+	public function update_row($input = array(),$loandescid)
+	{
+		//$where = $this->getAdapter()->quoteInto('loanDescId = ?',$loandescid);
+		$where[] = "loanDescId = '".$loandescid."'";
+		$n = $this->db->update('loanDescription',$input,$where);
+	}
+	
+	
+	
+	public function insert_row_newterm($input = array())
+	{
+		$this->db->insert('loanDesc',$input);
+	}
+	
+	
+	public function fetch_termperiod($typeid,$termno)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT termPeriod FROM loanDescription WHERE typeId = ? AND termNo = ?';
+		$result = $this->db->fetchOne($sql,array($typeid,$termno));
+		
+		return $result;
+	}
+	public function check_singleterm($typeid,$termno,$paytype)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT loanDescId FROM loanDescription WHERE typeId = ? AND termNo =? AND payType = ? ';
+		$result = $this->db->fetchOne($sql,array($typeid,$termno,$paytype));
+		
+		return $result;
+	}
+	
+	public function check_multipleterms($typeid,$termno)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT loanDescId FROM loanDescription WHERE typeId = ? AND termNo =? ';
+		$result = $this->db->fetchOne($sql,array($typeid,$termno));
+		
+		return $result;
+	}
+	
+	public function fetchall_id($typeid)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT loanDescId FROM loanDescription WHERE typeId = ? ORDER BY termNo';
+		$result = $this->db->fetchCol($sql,array($typeid));
+		return $result;
+	}
+	public function check_paytype($typeid,$termno,$paytype)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT loanDescId FROM loanDescription WHERE  typeID = ? AND termNo = ? AND payType = ?';
+		$result = $this->db->fetchCol($sql,array($typeid,$termno,$paytype));
+		
+		return $result;
+	}
+	
+	public function fetchrow_typeid_moreterms($typeid)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT loanDescId FROM loanDescription WHERE typeId = ? AND termNo > 1';
+		$result = $this->db->fetchOne($sql,array($typeid));
+		
+		return $result;
+	}
+	
+	public function fetchloandescid_fixedorfloat($input = array())
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT loanDescId FROM loanDescription WHERE typeId = ? AND payType = ? ';
+		$result = $this->db->fetchOne($sql,array($input['typeId'],$input['payType']));
+		
+		return $result;
+	
+	}
+	
+	public function fetchall_moreterms($typeid)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT loanDescId,termPeriod FROM loanDescription WHERE typeId = ?';
+		$result = $this->db->fetchAll($sql,array($typeid));
+		
+		return $result;
+	}
+	
+	public function getTypeid($loandescid)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_OBJ);
+		$sql = 'SELECT typeId FROM loanDescription WHERE loanDescId = ?';
+		$result = $this->db->fetchOne($sql,array($loandescid));
+		
+		return $result;
+	}
+	
+	public function fetch_row($loandescid)
+	{
+		$this->db->setFetchMode(Zend_Db::FETCH_NUM);
+		$sql = 'SELECT * FROM loanDescription WHERE loanDescId = ?';
+		$result = $this->db->fetchRow($sql,array($loandescid));
+		
+		return $result;
+	}
+		
+}

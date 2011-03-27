@@ -1,0 +1,79 @@
+<?php if($this->action) { ?>
+
+<form action="<?php echo $this->baseUrl ?>/index/<?php echo $this->action; ?>" method="post">
+<table border="0" align="center" style="font-size:14px;border:1px solid #ccc;padding:50px;background-color:#efefef;">
+<tr>
+<td align="right">Album id : </td>
+<td><input type="text" name="album_id" value="<?php echo $this->escape(trim($this->edit->album_id));?>"/></td>
+</tr>
+<tr>
+<td align="right">Album Name : </td>
+<td><input type="text" name="name" value="<?php echo $this->escape($this->edit->name);?>"/></td>
+</tr>
+<tr>
+<td align="right">Album type : </td>
+<td>
+<?php
+$typeraw = $this->escape($this->edit->type);
+$type_array = split(' ', $typeraw);
+$checked1='';
+$checked2='';
+$checked3='';
+foreach($type_array as $type)
+{
+if($type=="pop")
+$checked1='checked';
+if($type=="jazz")
+$checked2='checked';
+if($type=="rock")
+$checked3='checked';
+}
+?>
+<input type="checkbox" name="type[]" value="pop" <?php echo $checked1; ?> >pop
+<input type="checkbox" name="type[]" value="jazz" <?php echo $checked2; ?> >jazz
+<input type="checkbox" name="type[]" value="rock" <?php echo $checked3; ?> >rock
+
+
+</td>
+</tr>
+<tr>
+<td align="right">Gender : </td>
+
+<td>
+<input type="radio" name="gender" value="male" <?php if($this->edit->gender=='male'){ ?>checked <?php } ?>>Male
+<input type="radio" name="gender" value="female" <?php if($this->edit->gender=='female'){ ?>checked <?php } ?>>Female
+
+</td>
+</tr>
+<tr>
+<td align="right">Instrument : </td>
+<td>
+
+ <select name="instr">
+  <option value="guitar" <?php if($this->edit->instr=='guitar'){ ?>selected <?php } ?> >guitar</option>
+  <option value="violin" <?php if($this->edit->instr=='violin'){ ?>selected <?php } ?> >violin</option>
+  <option value="vocals" <?php if($this->edit->instr=='vocals'){ ?>selected <?php } ?> >vocals</option>
+  <option value="drums" <?php if($this->edit->instr=='drums'){ ?>selected <?php } ?> >drums</option>
+</select>
+</td>
+</tr>
+<tr>
+<td align="right">Year : </td>
+<td><input type="text" name="year" value="<?php echo $this->escape($this->edit->year);?>"/></td>
+</tr>
+
+<input type="hidden" name="id" value="<?php echo $this->edit->album_id; ?>" />
+<tr><td align="center" colspan="2"><input type="submit" name="add" value="<?php echo $this->escape($this->buttonText); ?>" /></td></tr>
+</table>
+</form>
+
+<?php }else{ ?>
+<center>
+<div style="font-size:14px;border:1px solid #ccc;padding:20px;background-color:#efefef;width:300px;" align="center">
+<br/><div> Successfully Edited</div>
+<br/>
+<a href="<?php echo $this->url(array('controller'=>'index',
+          'action'=>'viewalbum')); ?>">Go to view page</a>
+</div>
+</center>
+<?php } ?>

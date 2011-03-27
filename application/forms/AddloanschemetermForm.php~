@@ -1,0 +1,94 @@
+<?php 
+class AddloanschemetermForm extends Zend_Form
+{
+    public function __construct($options = null)
+    {
+    	parent::__construct($options);
+    	$id = new Zend_Form_Element_Hidden('id');
+    	
+        $this->setName('addloanschemeterm');
+        //$statement1 = new Zend_Form_Element_Hidden('statement1');
+        //$statement1->setLabel('Term no. 1');
+        
+        $loantype = new Zend_Form_Element_Hidden('loantype');
+        $loanscheme = new Zend_Form_Element_Hidden('loanscheme');
+        $tenure = new Zend_Form_Element_Hidden('tenure');
+        $amountfrom = new Zend_Form_Element_Hidden('amountfrom');
+        $amountto = new Zend_Form_Element_Hidden('amountto');
+        $numberofterms = new Zend_Form_Element_Hidden('numberofterms');
+               
+        
+        $termno = new Zend_Form_Element_Text('termno');
+        $termno->setLabel('Term No. ')
+        //->setAttrib('disabled','true')
+        ->setRequired(true)
+        ->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Digits'),
+        array('GreaterThan',false,array('min'=>0)),
+        array('NotEmpty')
+        )
+        );
+        
+        $termduration = new Zend_Form_Element_Text('termduration');
+        $termduration->setLabel('Term Duration(in months)')
+        ->setRequired(true)
+        ->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Digits'),
+        array('GreaterThan',false,array('min'=>0)),
+        array('NotEmpty')
+        )
+        );
+        
+        //$statement2 = new Zend_Form_Element_Hidden('statement2');
+        //$statement2->setLabel('Rate');
+        $rate = new Zend_Form_Element_Select('rate');
+        $rate->setLabel('Rate Type')
+        ->setRequired(true);
+        $rate->addMultiOption('','Select...');
+        $rate->addMultiOption('fixed','Fixed');
+        $rate->addMultiOption('floating','Floating');
+        
+        $plrcondition = new Zend_Form_Element_Text('plrcondition');
+        $plrcondition->setLabel('Enter condition for Lending rate (+/- PLR)')
+        ->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Float')
+        )
+        );
+        
+        $minrate = new Zend_Form_Element_Text('minrate');
+        $minrate->setLabel('Min. Rate')
+        ->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Float'),
+        array('GreaterThan',false,array('min'=>0)),
+        )
+        );
+        
+        $maxrate = new Zend_Form_Element_Text('maxrate');
+        $maxrate->setLabel('Max. Rate')
+        ->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidators(array(
+        array('Float'),
+        array('GreaterThan',false,array('min'=>0)),)
+        )
+        );
+		
+		$termcount = new Zend_Form_Element_Hidden('termcount');
+        
+        $submit1 = new Zend_Form_Element_Submit('Next');
+        $submit1->setAttrib('id', 'next');
+        
+        $submit2 = new Zend_Form_Element_Submit('Finish');
+        $submit2->setAttrib('id', 'finish');
+        
+        $this->addElements(array($loantype,$loanscheme,$tenure,$amountfrom,$amountto,$id,$termno,$termduration,$rate,$plrcondition,$termcount,$minrate,$maxrate,$submit1,$submit2,$numberofterms));
+    }
+}

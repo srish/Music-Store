@@ -1,0 +1,52 @@
+<center><h1><?php echo $this->escape($this->title); ?></h1></center>
+
+<table align = "center" cellspacing = "0" cellpadding = "1" border = "0"   style="font-size:14px;border:1px solid #ccc;padding:20px;background-color:#efefef;">
+       <tr><td >Search by :</td></tr>
+      <tr><td align="left"><?php echo $this->searchform;?> </td> </tr>
+</table>
+
+<div><h1>Results :</h1></div>
+<div align="right" style="font-size:10px;">No. of recods : <?php echo count($this->album);?> </div>
+<table align = "left" cellspacing = "0" cellpadding = "5" border = "0" width = "100%" style="border:1px solid #ccc;margin-left:5px;">
+     <tr style="background-color:#686868;color:#fff;font-size:14px;">
+     <th>Album id.</th>
+     <th>Name</th>
+     <th>Type</th>
+     <th>Gender</th>
+     <th>Instrument</th>
+     <th>Year</th>
+     <th>Edit</th>
+     <th>Delete</th>
+</tr>
+<?php
+$cnt=count($this->album);
+if( $cnt> 0){
+for($i=0;$i<$cnt;$i++){
+ if($i%2 == 0 )$color="#fff";else $color="#efefef";  
+ //echo $i;
+?>
+<tr style="font-size:13px;border-bottom:1px solid #ccc;background-color:<?php echo $color ?>">
+     <td><?php echo $this->album[$i]['0'];?></td>
+     <td><a href="<?php echo $this->baseUrl; ?>/index/album/id/<?php
+          echo $this->album[$i]['1'];?>"><?php echo $this->album[$i]['2'];?></a></td>
+     <td><?php echo $this->album[$i]['3'];?></td>
+    <td><?php echo $this->album[$i]['4'];?></td>
+     <td><?php echo $this->album[$i]['5'];?></td>  
+      <td><?php echo $this->album[$i]['6'];?></td>
+   
+<td>
+    <a href="<?php echo $this->baseUrl; ?>/index/editalbum/id/<?php echo $this->album[$i]['1'];?>">Edit</a>
+</td>
+<td>
+
+ <a href="<?php echo $this->baseUrl; ?>/index/deletealbum/id/<?php  echo $this->album[$i]['1'];?>">Delete</a>
+    </td>
+</tr>
+<?php  } ?>
+<?php }else{ ?>	
+<tr style="font-size:13px;border-bottom:1px solid #ccc;background-color:#efefef;">
+     <td colspan="8" align="center">---- No records ----</td>
+    
+</tr>
+<?php } ?>
+</table>

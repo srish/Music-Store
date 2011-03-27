@@ -1,0 +1,21 @@
+
+<body>
+    <table align = "left" cellspacing = "0" cellpadding = "5" border = "0" width = "100%">
+    <tr>
+    <td>
+    <?php if(isset($this->abc)) echo "UPDATE WAS SUCCESSFUL"; else { ?>
+    <table align = "left" cellspacing = "0" cellpadding = "5" border = "0" width = "35%">
+    <tr><th>Loan Type</th><td>  <?php echo $this->arraytosend['0']; ?></td> </tr>
+    <tr><th>Loan Scheme </th> <td> <?php echo $this->arraytosend['1']; ?></td></tr>
+    <tr><th>Tenure(in months) </th><td>  <?php echo $this->arraytosend['2']; ?> </td></tr>
+    <tr><th>Amount From </th><td><?php echo $this->arraytosend['3']; ?> </td></tr>
+	<tr><th>Amount To </th><td> <?php echo $this->arraytosend['4']; ?> </td></tr>
+    <tr><th>Term No. </th><td><?php echo $this->arraytosend['5']; ?> </td></tr>
+    <tr><th>Term Duration </th><td><?php echo $this->arraytosend['6']; ?> </td></tr>
+	</table>
+    <?php echo $this->form1; } ?>
+    </td>
+    </table>
+   
+</body>
+</html>
